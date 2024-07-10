@@ -12,7 +12,8 @@ const ibmPlexSerif = IBM_Plex_Serif({
 
 export const metadata: Metadata = {
     title: "Quanta Bank",
-    description: "Modern secured banking platform",
+    description:
+        "Financial platform for real-time bank account management and fund transfers",
     icons: {
         icon: "/icons/logo.svg",
     },
