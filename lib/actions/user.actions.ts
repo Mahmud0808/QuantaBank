@@ -169,7 +169,7 @@ export const createBankAccount = async ({
     accountId,
     accessToken,
     fundingSourceUrl,
-    sharableId,
+    shareableId,
 }: createBankAccountProps) => {
     try {
         const { database } = await createAdminClient();
@@ -184,7 +184,7 @@ export const createBankAccount = async ({
                 accountId,
                 accessToken,
                 fundingSourceUrl,
-                sharableId,
+                shareableId,
             }
         );
 
@@ -238,14 +238,14 @@ export const exchangePublicToken = async ({
             throw Error("Failed to create funding source URL");
         }
 
-        // Create a bank account using the user ID, item ID, account ID, access token, funding source URL, and sharable ID
+        // Create a bank account using the user ID, item ID, account ID, access token, funding source URL, and shareable ID
         await createBankAccount({
             userId: user.$id,
             bankId: itemId,
             accountId: accountData.account_id,
             accessToken,
             fundingSourceUrl,
-            sharableId: encryptId(accountData.account_id),
+            shareableId: encryptId(accountData.account_id),
         });
 
         revalidatePath("/");
