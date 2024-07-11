@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, IBM_Plex_Serif } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
 import "./globals.css";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const ibmPlexSerif = IBM_Plex_Serif({
@@ -28,7 +29,8 @@ export default function RootLayout({
         <html lang="en">
             <body className={`${inter.variable} ${ibmPlexSerif.variable}`}>
                 <NextTopLoader showSpinner={false} />
-                {children}
+                <main>{children}</main>
+                <Toaster />
             </body>
         </html>
     );

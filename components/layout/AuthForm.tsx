@@ -22,6 +22,8 @@ import { authFormSchema } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { signIn, signUp } from "@/lib/actions/user.actions";
+import PlaidLink from "../common/PlaidLink";
+import { toast } from "@/components/ui/use-toast";
 
 const AuthForm = ({ type }: { type: string }) => {
     const router = useRouter();
@@ -39,24 +41,49 @@ const AuthForm = ({ type }: { type: string }) => {
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         setIsLoading(true);
+
+        const userData = {
+            firstName: values.firstName!,
+            lastName: values.lastName!,
+            address1: values.address1!,
+            city: values.city!,
+            state: values.state!,
+            postalCode: values.postalCode!,
+            dateOfBirth: values.dob!,
+            ssn: values.ssn!,
+            email: values.email,
+            password: values.password,
+        };
+
         try {
             // Sign up with Appwrite & create plaid token
 
+            let result;
+
             if (type === "sign-up") {
-                const newUser = await signUp(values);
-                
-                setUser(newUser);
+                result = await signUp(userData);
             }
 
             if (type === "sign-in") {
-                const response = await signIn({
+                result = await signIn({
                     email: values.email,
                     password: values.password,
                 });
+            }
 
-                if (response) {
+            if (result?.success) {
+                setUser(result?.data);
+
+                if (type === "sign-in") {
                     router.push("/");
                 }
+            } else {
+                toast({
+                    title: "Uh Oh! Something went wrong.",
+                    description: result?.error,
+                    variant: "destructive",
+                    className: "bg-white",
+                });
             }
         } catch (err) {
             console.log(err);
@@ -98,7 +125,9 @@ const AuthForm = ({ type }: { type: string }) => {
                 </div>
             </header>
             {user ? (
-                <div className="flex flex-col gap-4">{/* PlaidLink */}</div>
+                <div className="flex flex-col gap-4">
+                    <PlaidLink user={user} variant="primary" />
+                </div>
             ) : (
                 <>
                     <Form {...form}>
