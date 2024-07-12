@@ -7,6 +7,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 import Footer from "./Footer";
+import PlaidLink from "../common/PlaidLink";
 
 const SideBar = ({ user }: SiderbarProps) => {
     const pathname = usePathname();
@@ -60,10 +61,8 @@ const SideBar = ({ user }: SiderbarProps) => {
                         </Link>
                     );
                 })}
-
-                {/* TODO: User information */}
+                <PlaidLink user={user} />
             </nav>
-
             <Footer user={user} />
         </section>
     );

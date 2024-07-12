@@ -145,7 +145,7 @@ declare interface CreditCardProps {
 
 declare interface BankInfoProps {
     account: Account;
-    appwriteItemId?: string;
+    isActive?: boolean;
     type: "full" | "card";
 }
 
@@ -200,7 +200,7 @@ declare interface BankDropdownProps {
 
 declare interface BankTabItemProps {
     account: Account;
-    appwriteItemId?: string;
+    isActive: boolean;
 }
 
 declare interface TotlaBalanceBoxProps {

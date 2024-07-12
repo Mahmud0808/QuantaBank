@@ -1,6 +1,6 @@
 "use server";
 
-import { ID } from "node-appwrite";
+import { ID, Query } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../server/appwrite";
 import { cookies } from "next/headers";
 import { encryptId, extractCustomerIdFromUrl, parseStringify } from "../utils";
@@ -21,6 +21,26 @@ const {
     APPWRITE_TRANSACTION_COLLECTION_ID: TRANSACTION_COLLECTION_ID,
 } = process.env;
 
+export const getUserInfo = async ({ userId }: getUserInfoProps) => {
+    if (!userId) {
+        throw new Error("User ID is required");
+    }
+
+    try {
+        const { database } = await createAdminClient();
+
+        const user = await database.listDocuments(
+            DATABASE_ID!,
+            USER_COLLECTION_ID!,
+            [Query.equal("userId", [userId])]
+        );
+
+        return parseStringify(user.documents[0]);
+    } catch (error) {
+        console.error("Error getting user info: ", error);
+    }
+};
+
 export const signIn = async ({ email, password }: signInProps) => {
     try {
         const { account } = await createAdminClient();
@@ -37,7 +57,9 @@ export const signIn = async ({ email, password }: signInProps) => {
             secure: true,
         });
 
-        return { success: true, data: parseStringify(session) };
+        const user = await getUserInfo({ userId: session.userId });
+
+        return { success: true, data: parseStringify(user) };
     } catch (error: any) {
         console.error("Sign in error: ", error);
         return { success: false, error: error.message };
@@ -126,9 +148,14 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
 export async function getLoggedInUser() {
     try {
         const { account } = await createSessionClient();
-        const user = await account.get();
+        const result = await account.get();
+
+        const user = await getUserInfo({ userId: result.$id });
+
         return parseStringify(user);
     } catch (error) {
+        // No need to console log this error
+        // Because the user is not logged in
         return null;
     }
 }
@@ -258,5 +285,45 @@ export const exchangePublicToken = async ({
             "An error occurred while creating exchange token:",
             error
         );
+    }
+};
+
+export const getBanks = async ({ userId }: getBanksProps) => {
+    if (!userId) {
+        throw new Error("User ID is required");
+    }
+
+    try {
+        const { database } = await createAdminClient();
+
+        const banks = await database.listDocuments(
+            DATABASE_ID!,
+            BANK_COLLECTION_ID!,
+            [Query.equal("userId", [userId])]
+        );
+
+        return parseStringify(banks.documents);
+    } catch (error) {
+        console.error("Error getting banks: ", error);
+    }
+};
+
+export const getBank = async ({ documentId }: getBankProps) => {
+    if (!documentId) {
+        throw new Error("User ID is required");
+    }
+
+    try {
+        const { database } = await createAdminClient();
+
+        const bank = await database.listDocuments(
+            DATABASE_ID!,
+            BANK_COLLECTION_ID!,
+            [Query.equal("$id", [documentId])]
+        );
+
+        return parseStringify(bank.documents[0]);
+    } catch (error) {
+        console.error("Error getting banks: ", error);
     }
 };
