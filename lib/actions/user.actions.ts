@@ -310,7 +310,7 @@ export const getBanks = async ({ userId }: getBanksProps) => {
 
 export const getBank = async ({ documentId }: getBankProps) => {
     if (!documentId) {
-        throw new Error("User ID is required");
+        throw new Error("Document ID is required");
     }
 
     try {
@@ -321,6 +321,32 @@ export const getBank = async ({ documentId }: getBankProps) => {
             BANK_COLLECTION_ID!,
             [Query.equal("$id", [documentId])]
         );
+
+        return parseStringify(bank.documents[0]);
+    } catch (error) {
+        console.error("Error getting banks: ", error);
+    }
+};
+
+export const getBankByAccountId = async ({
+    accountId,
+}: getBankByAccountIdProps) => {
+    if (!accountId) {
+        throw new Error("Account ID is required");
+    }
+
+    try {
+        const { database } = await createAdminClient();
+
+        const bank = await database.listDocuments(
+            DATABASE_ID!,
+            BANK_COLLECTION_ID!,
+            [Query.equal("accountId", [accountId])]
+        );
+
+        if (bank.total !== 1) {
+            return null;
+        }
 
         return parseStringify(bank.documents[0]);
     } catch (error) {
