@@ -49,6 +49,8 @@
 
 - **Type Safety:** TypeScript for type-checking and improved code quality
 
+- **Integration:** Plaid and Dwolla for secure connection to bank account
+
 - **Serverless APIs:** Deploy and manage APIs serverlessly
 
 ## <a name="quick-start">🚀 Quick Start</a>
