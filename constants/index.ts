@@ -76,6 +76,19 @@ export const topCategoryStyles = {
         },
         icon: "/icons/coins.svg",
     },
+    Transfer: {
+        bg: "bg-pink-25",
+        circleBg: "bg-pink-100",
+        text: {
+            main: "text-pink-900",
+            count: "text-pink-700",
+        },
+        progress: {
+            bg: "bg-pink-100",
+            indicator: "bg-pink-700",
+        },
+        icon: "/icons/dollar.svg",
+    },
     default: {
         bg: "bg-pink-25",
         circleBg: "bg-pink-100",
