@@ -1,9 +1,10 @@
+export const dynamic = "force-dynamic";
+
 import type { Metadata } from "next";
 import { Inter, IBM_Plex_Serif } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
-import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
-import "./globals.css";
 import Providers from "@/components/common/ProgressBarProvider";
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const ibmPlexSerif = IBM_Plex_Serif({
