@@ -85,9 +85,19 @@ const AuthForm = ({ type }: { type: string }) => {
                     className: "bg-white",
                 });
             }
-        } catch (err) {
+
+            if (type === "sign-up") {
+                setIsLoading(false);
+            }
+        } catch (err: any) {
             console.log(err);
-        } finally {
+            toast({
+                title: "Uh Oh! Something went wrong.",
+                description: err.message,
+                variant: "destructive",
+                className: "bg-white",
+            });
+
             setIsLoading(false);
         }
     };
