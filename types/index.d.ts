@@ -169,7 +169,7 @@ declare interface PageHeaderProps {
 }
 
 declare interface PaginationProps {
-    page: number;
+    currentPage: number;
     totalPages: number;
 }
 

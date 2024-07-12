@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BankTabItem } from "../common/BankTabItem";
 import BankInfo from "../common/BankInfo";
 import TransactionTable from "./TransactionTable";
+import { Pagination } from "../common/Pagination";
 
 const RecentTransactions = ({
     accounts,
@@ -14,6 +15,15 @@ const RecentTransactions = ({
     page = 1,
 }: RecentTransactionsProps) => {
     const [activeTab, setActiveTab] = useState(appwriteItemId);
+
+    const rowsPerPage = 10;
+    const totalPages = Math.ceil(transactions.length / rowsPerPage);
+    const indexOfLastTransaction = page * rowsPerPage;
+    const indexOfFirstTransaction = indexOfLastTransaction - rowsPerPage;
+    const currentTransactions = transactions.slice(
+        indexOfFirstTransaction,
+        indexOfLastTransaction
+    );
 
     const onTabChange = (value: any) => {
         setActiveTab(value);
@@ -46,9 +56,7 @@ const RecentTransactions = ({
                             <BankTabItem
                                 key={account.id}
                                 account={account}
-                                isActive={
-                                    activeTab === account.appwriteItemId
-                                }
+                                isActive={activeTab === account.appwriteItemId}
                             />
                         </TabsTrigger>
                     ))}
@@ -64,7 +72,11 @@ const RecentTransactions = ({
                             isActive={activeTab === account.appwriteItemId}
                             type="full"
                         />
-                        <TransactionTable transactions={transactions} />
+                        <TransactionTable transactions={currentTransactions} />
+                        <Pagination
+                            currentPage={page}
+                            totalPages={totalPages}
+                        />
                     </TabsContent>
                 ))}
             </Tabs>
