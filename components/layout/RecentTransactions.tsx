@@ -73,10 +73,14 @@ const RecentTransactions = ({
                             type="full"
                         />
                         <TransactionTable transactions={currentTransactions} />
-                        <Pagination
-                            currentPage={page}
-                            totalPages={totalPages}
-                        />
+                        {totalPages > 1 && (
+                            <div className="my-4 w-full">
+                                <Pagination
+                                    currentPage={page}
+                                    totalPages={totalPages}
+                                />
+                            </div>
+                        )}
                     </TabsContent>
                 ))}
             </Tabs>
