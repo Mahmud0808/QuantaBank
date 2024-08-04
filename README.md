@@ -1,6 +1,6 @@
 <div align="center">
   <br />
-    <img src="https://i.postimg.cc/Mq5sZCPj/Quanta-Bank.png" alt="Project Banner">
+    <img src="https://i.postimg.cc/YqhdFnB1/Quanta-Bank.png" alt="Project Banner">
   <br />
   <br />
 
